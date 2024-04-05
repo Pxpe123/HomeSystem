@@ -1,4 +1,4 @@
-name: Build and Release Electron App (Manual Edition)
+name: Build and Release Electron App
 
 on:
   workflow_dispatch:
