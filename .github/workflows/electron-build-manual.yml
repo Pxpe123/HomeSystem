@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        platform: [armv7l, arm64]
+        platform: [armv7l]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
