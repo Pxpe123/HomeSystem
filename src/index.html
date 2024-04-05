@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="./root.css" rel="stylesheet">
+  <link href="./styles.css" rel="stylesheet">
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+
+  <link href="./Apps/Home/home.css" rel="stylesheet">
+  <script src="./Apps/Home/home.js"></script>
+
+  <link href="./Apps/Clock/clock.css" rel="stylesheet">
+  <script src="./Apps/Clock/clock.js"></script>
+
+  <link href="./Apps/Pc_manager/pc_manager.css" rel="stylesheet">
+  <script src="./Apps/Pc_manager/pc_manager.js"></script>
+
+  <link href="./Apps/Spotify/spotify.css" rel="stylesheet">
+  <script src="./Apps/Spotify/spotify.js"></script>
+
+  <title>HomeSystem</title>
+</head>
+
+<body class="w-screen h-screen vartransition">
+  <div class="h-screen w-screen">
+    <div class="h-full HomeScreenMainDiv vartransition">
+      <div class="w-full h-[10%] flex HomeScreenTopBar">
+        <div class="w-[15%] h-full flex justify-center items-center">
+          <h1 id="clock" class="HomeScreenMainTimeText vartransition">00:00</h1>
+        </div>
+        <div class="w-[75%] h-full">
+        </div>
+        <div class="w-[10%] h-full">
+        </div>
+      </div>
+      <div class="w-full h-[90%]" id="MainContent">
+      </div>
+    </div>
+  </div>
+
+</body>
+
+<script src="./Global.js"></script>
+<script src="./index.js"></script>
+
+</html>

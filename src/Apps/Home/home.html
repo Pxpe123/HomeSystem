@@ -1,0 +1,19 @@
+<div class="w-full h-full" id="carSystem">
+    <div class="car-dashboard grid grid-cols-6 grid-rows-2 gap-4">
+        <div class="app-icon">
+            <img onclick="openApp('spotify')" src="https://img.icons8.com/ios-filled/100/present.png" alt="present" />
+        </div>
+        <div class="app-icon">
+            <img onclick="openApp('clock')" src="https://img.icons8.com/ios-filled/100/present.png" alt="present" />
+        </div>
+        <div class="app-icon">
+            <img onclick="openApp('pc_manager')" src="https://img.icons8.com/ios-filled/100/present.png"
+                alt="present" />
+        </div>
+    </div>
+    <div class="flex justify-between mt-4">
+        <button onclick="prevPage()" class="px-4 py-2 bg-blue-500 text-white">Prev</button>
+        <span id="pageIndicator" class="text-lg">1 / 1</span>
+        <button onclick="nextPage()" class="px-4 py-2 bg-blue-500 text-white">Next</button>
+    </div>
+</div>

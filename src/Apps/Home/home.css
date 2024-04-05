@@ -1,0 +1,13 @@
+.app-icon {
+  display: inline-block;
+  background-color: var(--background-color2);
+  border-radius: 10%;
+  margin: 40px 20px;
+  text-align: center;
+}
+
+.app-icon img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}

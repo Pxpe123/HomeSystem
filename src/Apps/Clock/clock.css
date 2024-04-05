@@ -1,0 +1,47 @@
+.bottomBarButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin: 0 80px;
+  padding: 15px;
+  border-radius: 15px;
+  position: relative;
+}
+
+.bottomBarButton[active] {
+  background-color: var(--button-color-2);
+  border: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.bottomBarButton i {
+  color: #ffffff;
+  font-size: 24px;
+}
+
+.bottomBarButton::before {
+  content: attr(data-tooltip);
+  display: none;
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.bottomBarButton:hover::before {
+  display: block;
+  opacity: 1;
+}
+
+.ClockMainText {
+  font-family: "Orbitron", sans-serif;
+  font-size: 1000%;
+}

@@ -1,0 +1,43 @@
+{
+  "name": "electron-quick-start",
+  "author": {
+    "name": "Your Name",
+    "email": "your.email@example.com",
+    "url": "http://yourwebsite.com"
+  },
+  "email": "b@rubble.com",
+  "version": "1.0.0",
+  "description": "A minimal Electron application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder",
+    "build:linux": "electron-builder --linux --config"
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "build": {
+    "appId": "your.app.id",
+    "productName": "YourProductName",
+    "files": [
+      "./**"
+    ]
+  },
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^29.1.5",
+    "electron-builder": "^24.13.3"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "open": "^10.1.0",
+    "spotify-web-api-node": "^5.0.2",
+    "wake_on_lan": "^1.0.0"
+  }
+}

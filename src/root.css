@@ -1,0 +1,55 @@
+/* Dark Mode */
+:root {
+  --background-color: #121c21;
+  --background-color2: #1a9ce5;
+  --text-color: #ffffff;
+  --text-color-2: #94b5c7;
+  --accent-color: #335466;
+  --button-color: #243b47;
+  --button-color-2: #1a9ce5;
+  --divider-color: #e5e8eb;
+}
+
+/* Light Mode */
+body.light {
+  --background-color2: #b1b1b1;
+  --background-color: #243b47;
+  --text-color: #121c21;
+  --text-color-2: #335466;
+  --accent-color: #94b5c7;
+  --button-color: #1a9ce5;
+  --button-color-2: #243b47;
+  --divider-color: #121c21;
+}
+
+.background-color {
+  background-color: var(--background-color);
+}
+
+.divider-color {
+  border-color: var(--divider-color);
+}
+
+.text-color {
+  color: var(--text-color);
+}
+
+.text-color-2 {
+  color: var(--text-color-2);
+}
+
+.accent-color {
+  color: var(--accent-color);
+}
+
+.button-color {
+  background-color: var(--button-color);
+}
+
+.button-color-2 {
+  background-color: var(--button-color-2);
+}
+
+.vartransition {
+  transition: all 0.3s ease-in-out;
+}
