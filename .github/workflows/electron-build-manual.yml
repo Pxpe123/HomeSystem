@@ -17,11 +17,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+      # Omitted other setup steps for brevity
+      
+      - name: Install snapcraft
+        run: |
+          sudo apt update
+          sudo apt install snapd
+          sudo snap install snapcraft --classic
+        # This step attempts to install snapcraft on the runner,
+        # but be aware that snapd may not function properly in this environment.
 
       - name: Install Node.js
         uses: actions/setup-node@v2
