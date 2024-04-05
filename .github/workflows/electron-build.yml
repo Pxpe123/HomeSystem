@@ -1,5 +1,11 @@
 name: Build and Release Electron App
 
+permissions:
+  contents: read
+  issues: write
+  packages: write
+  releases: write
+
 on:
   workflow_dispatch:
   push:
