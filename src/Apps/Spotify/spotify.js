@@ -13,7 +13,7 @@ const scopes = [
   "user-read-email",
   "streaming",
   "user-read-private",
-  "user-library-read",
+  //"user-library-read",
   // "user-library-modify",
   "user-top-read",
   "user-read-playback-state",
