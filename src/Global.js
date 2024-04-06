@@ -1,3 +1,6 @@
+const Store = require("electron-store");
+const store = new Store();
+
 const path = require("node:path");
 let settingsFile = path.join(__dirname, "settings.json");
 

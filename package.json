@@ -27,7 +27,10 @@
     "electron-builder": "^24.13.3"
   },
   "dependencies": {
+    "electron-store": "^8.2.0",
     "express": "^4.19.2",
+    "node-fetch": "^3.3.2",
+    "open": "^10.1.0",
     "spotify-web-api-node": "^5.0.2",
     "wake_on_lan": "^1.0.0"
   }
