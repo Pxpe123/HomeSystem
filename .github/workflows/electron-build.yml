@@ -38,8 +38,7 @@ jobs:
 
       - name: Build Electron App
         run: 
-          # CI=false npm run build:linux -- --${{ matrix.platform }} --config.extraMetadata.buildDate=${{ env.BUILD_DATE }}
-          CI=false npm run build:pi --config.extraMetadata.buildDate=${{ env.BUILD_DATE }}
+          CI=false npm run build:linux -- --${{ matrix.platform }} --config.extraMetadata.buildDate=${{ env.BUILD_DATE }}
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
