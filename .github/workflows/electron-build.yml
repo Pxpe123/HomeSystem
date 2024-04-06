@@ -10,13 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        platform: [armv7l]
+        platform: [arm64]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
       # Omitted other setup steps for brevity
-      
       - name: Install snapcraft
         run: |
           sudo apt update
@@ -37,9 +36,7 @@ jobs:
         run: echo "BUILD_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
       - name: Build Electron App
-        run: 
-          # CI=false npm run build:linux -- --${{ matrix.platform }} --config.extraMetadata.buildDate=${{ env.BUILD_DATE }}
-          CI=false npm run build:pi --config.extraMetadata.buildDate=${{ env.BUILD_DATE }}
+        run: CI=false npm run build:linux -- --${{ matrix.platform }} --config.extraMetadata.buildDate=${{ env.BUILD_DATE }}
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
