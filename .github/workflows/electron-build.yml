@@ -39,14 +39,12 @@ jobs:
         run: echo "BUILD_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
       - name: Build Electron App
-        run:
-          # CI=false npm run build:linux -- --${{ matrix.platform }} --config.extraMetadata.buildDate=${{ env.BUILD_DATE }}
-          CI=false npm run build:pi --config.extraMetadata.buildDate=${{ env.BUILD_DATE }}
+        run: CI=false npm run build:pi
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: HomeSystem-${{ matrix.platform }}-${{ env.BUILD_DATE }}.AppImage
+          name: HomeSystem-${{ matrix.platform }}.AppImage
           path: dist/*.AppImage
 
   release:
