@@ -17,7 +17,7 @@ const scopes = [
   "user-follow-read",
 ];
 
-// Define PKCE helper functions
+// PKCE helper functions
 function base64URLEncode(str) {
   return str
     .toString("base64")
@@ -39,11 +39,9 @@ async function generateCodeChallenge(codeVerifier) {
   return base64URLEncode(hashed);
 }
 
-// Global codeVerifier to ensure consistency across the flow
 let codeVerifier = generateCodeVerifier();
 
 async function generateAuthUrl() {
-  // Generate the code challenge based on the verifier
   const codeChallenge = await generateCodeChallenge(codeVerifier);
   const authorizeURL = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(
     redirectUri
@@ -53,43 +51,61 @@ async function generateAuthUrl() {
   return { authorizeURL, codeVerifier };
 }
 
-async function spotifyauthInit() {
-  app.listen(port, () => console.log(`Listening on port ${port}`));
+function spotifyauthInit() {
+  return new Promise((resolve, reject) => {
+    app.listen(port, () => console.log(`Listening on port ${port}`));
 
-  app.get("/callback", async (req, res) => {
-    const { code } = req.query;
-    const body = new URLSearchParams({
-      client_id: clientId,
-      grant_type: "authorization_code",
-      code,
-      redirect_uri: redirectUri,
-      code_verifier: codeVerifier, // Use the global verifier
+    app.get("/callback", async (req, res) => {
+      const { code } = req.query;
+      const body = new URLSearchParams({
+        client_id: clientId,
+        grant_type: "authorization_code",
+        code,
+        redirect_uri: redirectUri,
+        code_verifier: codeVerifier,
+      });
+
+      try {
+        const response = await fetch("https://accounts.spotify.com/api/token", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: body.toString(),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        if (data.access_token) {
+          console.log("Access Token:", data.access_token);
+          localStorage.setItem("accessToken", data.access_token);
+          localStorage.setItem("refreshToken", data.refresh_token);
+          spotifyApi.setAccessToken(data.access_token);
+          res.send("Logged in successfully. You can close this window now.");
+          resolve(); // Resolve the promise here
+        } else {
+          throw new Error("Failed to obtain access token");
+        }
+      } catch (error) {
+        console.error("Authentication error:", error);
+        res.status(500).send("Authentication failed");
+        reject(error); // Reject the promise here
+      }
     });
 
-    const response = await fetch("https://accounts.spotify.com/api/token", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: body.toString(),
-    });
-
-    const data = await response.json();
-    if (data.access_token) {
-      console.log("Access Token:", data.access_token);
-      store.set("accessToken", data.access_token);
-
-      res.send("Logged in successfully. You can close this window now.");
+    if (!localStorage.getItem("accessToken")) {
+      generateAuthUrl()
+        .then(({ authorizeURL }) => {
+          shell.openExternal(authorizeURL);
+        })
+        .catch((error) => {
+          console.error("Error generating auth URL:", error);
+          reject(error); // Reject if unable to generate the auth URL
+        });
     } else {
-      console.error("Failed to obtain access token:", data);
-      res.status(500).send("Authentication failed");
+      // If the access token already exists, resolve immediately
+      resolve();
     }
   });
-
-  if (store.has("accessToken")) {
-    const accessToken = store.get("accessToken");
-    console.log("Access token already exists:", accessToken);
-    return;
-  }
-
-  const { authorizeURL } = await generateAuthUrl();
-  shell.openExternal(authorizeURL);
 }

@@ -12,18 +12,43 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri: "http://localhost:5000/callback",
 });
 
-async function spotifyInit() {
-  await spotifyauthInit();
-
-  getMeFunct();
-
-  startFetchingSpotifyData();
+async function refreshAccessToken() {
+  const accessToken = localStorage.getItem("refreshTokens");
+  if (!refreshToken) return;
+  try {
+    const data = await spotifyApi.refreshAccessToken();
+    localStorage.setItem("accessToken", data.body.access_token);
+    spotifyApi.setAccessToken(data["access_token"]);
+    console.log("The access token has been refreshed.");
+  } catch (error) {
+    console.error("Could not refresh access token", error);
+  }
 }
 
+async function spotifyInit() {
+  const accessToken = localStorage.getItem("accessToken");
+
+  if (accessToken) {
+    spotifyApi.setAccessToken(accessToken);
+  } else {
+    await spotifyauthInit();
+  }
+
+  getMeFunct();
+  startFetchingSpotifyData();
+}
 async function getMeFunct() {
-  const me = await spotifyApi.getMe();
-  console.log("Authenticated user data:", me.body);
-  return me;
+  try {
+    const me = await spotifyApi.getMe();
+    console.log("Authenticated user data:", me.body);
+  } catch (error) {
+    console.error("Failed to fetch user data:", error);
+    if (error.body.error.status === 401) {
+      // Token expired
+      await refreshAccessToken();
+      return getMeFunct();
+    }
+  }
 }
 
 async function playSong() {

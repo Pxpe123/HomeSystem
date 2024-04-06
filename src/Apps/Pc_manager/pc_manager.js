@@ -12,11 +12,11 @@ async function pc_managerInit() {
   target = ManagerSettingsJson.ipAddress; // Make sure this is defined in your settings
 
   console.log(ManagerSettingsJson);
+  continuousCheck();
 }
 
 function togglePc() {
   wakeComputer();
-  continuousCheck();
 }
 
 function wakeComputer() {
@@ -30,9 +30,9 @@ function wakeComputer() {
 }
 
 function pcStatusCheck() {
-  exec(`ping -c 1 ${target}`, (error, stdout, stderr) => {
+  exec(`ping {target}`, (error, stdout, stderr) => {
     if (error) {
-      console.log(`${target}: Offline or not reachable`);
+      console.log(`${target}: Offline or not reachable ${error}`);
     } else {
       console.log(`${target}: Online`);
     }
