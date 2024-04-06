@@ -5,15 +5,14 @@ async function DataUpdate() {
   try {
     // Fetch current playback state from Spotify
     // Update UI based on the fetched state
+
+    updatePlayPauseButton();
   } catch (error) {
     console.error("Error fetching Spotify data:", error);
   }
 }
 
-// Update the play/pause button based on playback state
-function updatePlayPauseButton(isPlaying) {
-  // Update play/pause button icon based on `isPlaying` state
-}
+function updateSongData() {}
 
 // Update the volume slider based on the current volume
 function updateVolumeSlider(volumePercent) {
@@ -37,20 +36,35 @@ function updateRepeatButton(repeatState) {
 
 // Toggle playback between play and pause
 function togglePlayPause() {
-  // Toggle play/pause using Spotify API
-  // Update `isPlaying` state accordingly
+  if (isPlaying) {
+    spotifyApi.pause();
+    pauseSong();
+  } else {
+    spotifyApi.play();
+    playSong();
+  }
 }
 
-// Play the current track
+// Update the play/pause button based on playback state ( If Changed Else Where )
+function updatePlayPauseButton(isPlaying) {
+  if (spotifyData.is_playing == false) {
+    pauseSong();
+  } else {
+    playSong();
+  }
+}
+
 function playSong() {
-  // Use Spotify API to play the song
-  // Update UI to reflect the play state
+  document.getElementById("play-pause-icon").classList.remove("fa-play");
+  document.getElementById("play-pause-icon").classList.add("fa-pause");
+  isPlaying = true;
 }
 
-// Pause the current track
 function pauseSong() {
-  // Use Spotify API to pause the song
-  // Update UI to reflect the pause state
+  document.getElementById("play-pause-icon").classList.remove("fa-pause");
+  document.getElementById("play-pause-icon").classList.add("fa-play");
+
+  isPlaying = false;
 }
 
 // Play the next track in the playlist or queue
@@ -64,10 +78,55 @@ function prevSong() {
 }
 
 // Set the playback volume
-function setVolume(volume) {
-  // Use Spotify API to set the volume
+let lastVolumeSetTime = 0;
+const VOLUME_SET_INTERVAL = 100; // Minimum interval between volume set operations in milliseconds
+const DISABLE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+async function setVolume(volume) {
+  const currentTime = new Date().getTime();
+
+  // Check if the function is called too quickly after the last call
+  if (currentTime - lastVolumeSetTime < VOLUME_SET_INTERVAL) {
+    return;
+  }
+
+  console.log("Setting volume to:", volume);
+
+  try {
+    await spotifyApi.setVolume(volume);
+    lastVolumeSetTime = currentTime;
+  } catch (error) {
+    if (
+      error.body &&
+      error.body.error &&
+      error.body.error.reason === "VOLUME_CONTROL_DISALLOW"
+    ) {
+      console.error("Volume control is disallowed. Disabling slider.");
+      disableVolumeSlider();
+
+      setTimeout(enableVolumeSlider, DISABLE_DURATION);
+    } else {
+      console.error("Error setting volume:", error);
+      console.error("Error setting volume:", error);
+    }
+  }
 }
 
+function disableVolumeSlider() {
+  const slider = document.getElementById("volume-slider");
+  if (slider) {
+    slider.disabled = true;
+    slider.classList.add("disabled");
+  }
+}
+
+function enableVolumeSlider() {
+  const slider = document.getElementById("volume-slider");
+  if (slider) {
+    slider.disabled = false;
+    slider.classList.remove("disabled");
+  }
+}
 // Set the playback position (seek)
 function setPlaybackPoint(point) {
   // Use Spotify API to set the playback position
@@ -82,6 +141,3 @@ function toggleShuffle() {
 function toggleRepeat() {
   // Use Spotify API to toggle repeat mode
 }
-
-// Periodically update UI with current Spotify playback state
-setInterval(DataUpdate, 3000); // Update every 3 seconds

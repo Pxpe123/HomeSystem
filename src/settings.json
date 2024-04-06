@@ -1,7 +1,7 @@
 {
   "pages": {
     "clock": {
-      "timeFormat": "12"
+      "timeFormat": "24"
     },
     "pcManagement": {
       "macAddress": "D8:BB:C1:42:48:8C",

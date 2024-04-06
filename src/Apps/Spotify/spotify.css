@@ -17,3 +17,8 @@
 .artist-name {
   @apply text-lg;
 }
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}

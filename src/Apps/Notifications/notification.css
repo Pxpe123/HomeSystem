@@ -1,0 +1,68 @@
+.notification-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.notification {
+  background-color: #61616169; /* Semi-transparent dark background */
+  border-radius: 25px;
+  border: 2px solid #fff;
+  pointer-events: auto;
+  display: flex; /* Use flexbox for layout */
+  align-items: center; /* Align items vertically */
+  padding: 1rem; /* Add some padding inside the notification */
+  gap: 1rem; /* Space between image and text content */
+  position: absolute;
+  right: 2vw;
+  top: 15%; /* Adjusted positioning */
+  animation: slideIn 0.5s ease forwards, slideOut 0.5s ease forwards;
+}
+
+.notification img {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+.notification .content {
+  display: flex;
+  flex-direction: column;
+}
+
+.notification .subject {
+  color: var(--text-color-2);
+  font-weight: bold;
+}
+
+.notification .message {
+  color: var(--text-color);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
