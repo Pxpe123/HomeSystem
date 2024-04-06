@@ -30,7 +30,7 @@ function wakeComputer() {
 }
 
 function pcStatusCheck() {
-  exec(`ping {target}`, (error, stdout, stderr) => {
+  exec(`ping ${target}`, (error, stdout, stderr) => {
     if (error) {
       console.log(`${target}: Offline or not reachable ${error}`);
     } else {
