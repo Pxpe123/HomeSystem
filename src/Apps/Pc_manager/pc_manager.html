@@ -1,3 +1,37 @@
-<div class="w-full h-full">
-    <button class="button" onclick="togglePc()">Toggle PC</button>
+<div class="w-full h-full flex flex-col items-center justify-center text-white p-4">
+    <div class="top-right">
+        <button class="settings-btn" id="settings-btn" onclick="toggleSettings()">
+            <i class="fas fa-cog"></i>
+        </button>
+    </div>
+    <div class="settings-sidebar" id="settingsSidebar">
+        <div class="w-full h-[15%] flex items-center justify-start pl-4 pcmanager_settings_topdiv">
+            <img src="https://img.icons8.com/ios-filled/100/spotify.png" alt="" class="w-10 h-10 mr-4">
+            <span class="text-white text-lg">PC Manager Settings</span>
+        </div>
+
+        <form id="settingsForm" class="w-full h-[85%] flex flex-col justify-start items-start pl-4 pt-8 space-y-4">
+            <div class="form-item">
+                <label for="macAddress" class="text-white text-sm mb-2 block">MAC Address</label>
+                <input type="text" id="macAddress" name="macAddress" placeholder="00:00:00:00:00:00"
+                    class="input-field">
+            </div>
+            <div class="form-item">
+                <label for="ipAddress" class="text-white text-sm mb-2 block">IP Address</label>
+                <input type="text" id="ipAddress" name="ipAddress" placeholder="192.168.0.1" class="input-field">
+            </div>
+            <button type="submit" class="submit-btn">Save Settings</button>
+        </form>
+    </div>
+    <div class="overlay" id="overlay" onclick="closeSettings()"></div>
+    <div class="info top-info">Top Info</div>
+    <div class="center-content">
+        <div class="info left-info">Left Info</div>
+        <button onclick="togglePc()" class="kave-btn" id="pcmanager_btn_txt">
+            <span class="kave-line"></span>
+            On
+        </button>
+        <div class="info right-info">Right Info</div>
+    </div>
+    <div class="info bottom-info">Bottom Info</div>
 </div>

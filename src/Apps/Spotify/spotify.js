@@ -13,33 +13,48 @@ const spotifyApi = new SpotifyWebApi({
 
 async function refreshAccessToken() {
   const refreshToken = localStorage.getItem("refreshToken");
-  if (!refreshToken) return;
+  if (!refreshToken) {
+    console.error("No refresh token available");
+    return;
+  }
+
+  const params = new URLSearchParams({
+    grant_type: "refresh_token",
+    refresh_token: refreshToken,
+    client_id: clientId, // Ensure your client ID is correct and available
+    client_secret: clientSecret, // Ensure your client secret is correct and available
+  });
 
   try {
     const response = await fetch("https://accounts.spotify.com/api/token", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({
-        grant_type: "refresh_token",
-        refresh_token: refreshToken,
-        client_id: clientId,
-        client_secret: clientSecret,
-      }).toString(),
+      body: params.toString(),
     });
 
     const data = await response.json();
-    if (data.access_token) {
-      console.log("The access token has been refreshed:", data.access_token);
-      localStorage.setItem("accessToken", data.access_token);
-      spotifyApi.setAccessToken(data.access_token);
-      // Optionally, update the refresh token if a new one is returned
-      if (data.refresh_token) {
-        localStorage.setItem("refreshToken", data.refresh_token);
-        spotifyApi.setRefreshToken(data.refresh_token);
-      }
-    } else {
-      throw new Error("Failed to refresh access token");
+    if (!response.ok) {
+      throw new Error(
+        `HTTP error! status: ${response.status} - ${data.error} - ${data.error_description}`
+      );
     }
+
+    console.log("The access token has been refreshed:", data.access_token);
+    localStorage.setItem("accessToken", data.access_token);
+    spotifyApi.setAccessToken(data.access_token);
+
+    if (data.refresh_token) {
+      // Spotify may return a new refresh token
+      localStorage.setItem("refreshToken", data.refresh_token);
+    }
+
+    // Re-calculate the expiration time
+    const expiresIn = data.expires_in || 3600; // Use default of 3600 seconds if not provided
+    const expirationTime = Date.now() + expiresIn * 1000;
+    localStorage.setItem(
+      "accessTokenExpirationTime",
+      expirationTime.toString()
+    );
   } catch (error) {
     console.error("Could not refresh access token", error);
   }
@@ -58,13 +73,16 @@ function scheduleTokenRefresh() {
 async function spotifyInit() {
   const accessToken = localStorage.getItem("accessToken");
   const refreshToken = localStorage.getItem("refreshToken");
+
+  refreshAccessToken();
+
   scheduleTokenRefresh();
   if (accessToken) {
     spotifyApi.setAccessToken(accessToken);
   }
   if (refreshToken) {
     spotifyApi.setRefreshToken(refreshToken);
-    await refreshAccessToken(); // Ensure the token is refreshed if needed
+    await refreshAccessToken();
   } else {
     await spotifyauthInit(); // Initiate auth flow if no tokens are available
   }
@@ -81,8 +99,7 @@ async function getMeFunct() {
   } catch (error) {
     console.error("Failed to fetch user data:", error);
     if (error.body.error.status === 401) {
-      // Token expired
-      tokenRefreshAuto();
+      refreshAccessToken();
       return getMeFunct();
     }
   }

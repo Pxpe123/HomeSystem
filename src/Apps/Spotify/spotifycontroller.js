@@ -11,9 +11,7 @@ async function DataUpdate() {
 
       updatePlayPauseButton();
     }
-  } catch (error) {
-    console.error("Error fetching Spotify data:", error);
-  }
+  } catch (error) {}
 }
 
 function updateCurrentTrackInfo() {

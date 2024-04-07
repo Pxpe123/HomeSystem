@@ -1,5 +1,12 @@
+let currentApp;
+
 const path = require("node:path");
 let settingsFile = path.join(__dirname, "settings.json");
+
+function AppInit() {
+  openApp("pc_manager");
+  appControl();
+}
 
 function sleep(ms) {
   ms = ms * 1000;
@@ -12,7 +19,7 @@ function Refresh(seconds) {
   }, seconds * 1000);
 }
 
-//Refresh(5.3);
+//Refresh(2.3);
 
 function toggleTheme() {
   var body = document.querySelector("body");
@@ -49,6 +56,8 @@ function openApp(app) {
   const formattedApp = app.charAt(0).toUpperCase() + app.slice(1).toLowerCase();
   const path = `./Apps/${formattedApp}/${app}.html`;
 
+  currentApp = app;
+
   const initFunctionName = `${app}Init`;
   let MainDiv = document.getElementById("MainContent");
   fetch(path)
@@ -61,8 +70,6 @@ function openApp(app) {
       console.error("Error fetching app:", error);
     });
 }
-
-openApp("home");
 
 const fs = require("fs").promises;
 
@@ -121,3 +128,18 @@ async function setAppSettings(page, setting, value) {
     return false;
   }
 }
+
+async function appControl() {
+  let homeBtn = document.getElementById("homeBtnGlobal");
+  while (true) {
+    if (currentApp == "home") {
+      homeBtn.style.display = "none";
+    } else {
+      homeBtn.style.display = "block";
+    }
+
+    await sleep(0.1);
+  }
+}
+
+AppInit();

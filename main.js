@@ -26,7 +26,7 @@ function createWindow() {
     mainWindow.show();
     mainWindow.webContents.openDevTools();
   });
-  mainWindow.setPosition(0, 0);
+  mainWindow.setPosition(-1000, 250);
 }
 
 app.whenReady().then(() => {
