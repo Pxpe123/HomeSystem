@@ -49,17 +49,36 @@ function updateRepeatButton(repeatState) {
 }
 
 // Toggle playback between play and pause
-function togglePlayPause() {
+async function togglePlayPause() {
   if (isPlaying) {
-    spotifyApi.pause();
-    pauseSong();
+    try {
+      await spotifyApi.pause();
+      pauseSong();
+    } catch (error) {
+      if (
+        error.body.error.message ==
+        "Player command failed: No active device found"
+      ) {
+      }
+    }
   } else {
-    spotifyApi.play();
-    playSong();
+    try {
+      await spotifyApi.play();
+      playSong();
+    } catch (error) {
+      if (
+        error.body.error.message ==
+        "Player command failed: No active device found"
+      ) {
+        console.log("No Active Session");
+        let Devices = await spotifyApi.getMyDevices();
+        let devicesJsonString = JSON.stringify(Devices.body.devices);
+        console.log(devicesJsonString);
+      }
+    }
   }
 }
 
-// Update the play/pause button based on playback state ( If Changed Else Where )
 function updatePlayPauseButton(isPlaying) {
   if (spotifyData.is_playing == false) {
     pauseSong();

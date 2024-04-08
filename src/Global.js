@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 let currentApp;
 
 const path = require("node:path");
@@ -146,23 +144,23 @@ async function appControl() {
 
 AppInit();
 
+require("dotenv").config();
+
 async function fetchTrainDepartures(stationCode) {
   const endpoint = `https://api.rtt.io/api/v1/json/search/${stationCode}`;
+  const username = process.env.RTTAPI_USERNAME; // Stored in your .env file
+  const password = process.env.RTTAPI_PASSWORD; // Stored in your .env file
 
-  const username = process.env.RTTAPI_USERNAME;
-  const password = process.env.RTTAPI_PASSWORD;
-
-  const base64Credentials = btoa(`${username}:${password}`);
+  const base64Credentials = Buffer.from(`${username}:${password}`).toString(
+    "base64"
+  );
 
   const response = await fetch(endpoint, {
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Basic ${base64Credentials}`,
+      "Content-Type": "application/json",
     },
   });
-  if (!response.ok) {
-    throw new Error("Failed to fetch data");
-  }
 
   const data = await response.json();
 
