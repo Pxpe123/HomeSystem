@@ -27,8 +27,6 @@ function closeSettings() {
 }
 
 async function pc_managerInit() {
-  toggleSettings();
-
   ManagerSettingsJson = await getAllPageSettings("pcManagement");
   macAddress = ManagerSettingsJson.macAddress;
   target = ManagerSettingsJson.ipAddress;

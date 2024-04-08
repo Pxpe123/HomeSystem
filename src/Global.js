@@ -1,10 +1,12 @@
+require("dotenv").config();
+
 let currentApp;
 
 const path = require("node:path");
 let settingsFile = path.join(__dirname, "settings.json");
 
 function AppInit() {
-  openApp("pc_manager");
+  openApp("home");
   appControl();
 }
 
@@ -143,3 +145,51 @@ async function appControl() {
 }
 
 AppInit();
+
+async function fetchTrainDepartures(stationCode) {
+  const endpoint = `https://api.rtt.io/api/v1/json/search/${stationCode}`;
+
+  const username = process.env.RTTAPI_USERNAME;
+  const password = process.env.RTTAPI_PASSWORD;
+
+  const base64Credentials = btoa(`${username}:${password}`);
+
+  const response = await fetch(endpoint, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Basic ${base64Credentials}`,
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  const data = await response.json();
+  return data.services.map((service) => ({
+    time: service.locationDetail.gbttBookedDeparture,
+    origin: service.locationDetail.origin[0].description,
+    destination: service.locationDetail.destination[0].description,
+    trainId: service.trainIdentity,
+  }));
+}
+
+async function displayDepartures() {
+  try {
+    const stations = await getAppSettings("trainTracker", "stationsCodes");
+    for (const station of stations) {
+      const departures = await fetchTrainDepartures(station);
+      console.log(`Departures from ${station}:`, departures);
+      // Here you would turn each departure into a div and append it to the DOM
+      // For example:
+      // departures.forEach(dep => {
+      //     const div = document.createElement('div');
+      //     div.textContent = `${dep.time} - ${dep.origin} to ${dep.destination} (${dep.trainId})`;
+      //     document.body.appendChild(div);
+      // });
+    }
+  } catch (error) {
+    console.error("Error fetching train departures:", error);
+  }
+}
+
+displayDepartures();

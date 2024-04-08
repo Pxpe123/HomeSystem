@@ -6,6 +6,9 @@
     "pcManagement": {
       "macAddress": "D8:BB:C1:42:48:8C",
       "ipAddress": "192.168.50.77"
+    },
+    "trainTracker": {
+      "stationsCodes": ["LVC", "MNS", "KIR"]
     }
   }
 }
