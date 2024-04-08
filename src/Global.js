@@ -165,6 +165,7 @@ async function fetchTrainDepartures(stationCode) {
   }
 
   const data = await response.json();
+
   return data.services.map((service) => ({
     time: service.locationDetail.gbttBookedDeparture,
     origin: service.locationDetail.origin[0].description,
@@ -179,8 +180,6 @@ async function displayDepartures() {
     for (const station of stations) {
       const departures = await fetchTrainDepartures(station);
       console.log(`Departures from ${station}:`, departures);
-      // Here you would turn each departure into a div and append it to the DOM
-      // For example:
       // departures.forEach(dep => {
       //     const div = document.createElement('div');
       //     div.textContent = `${dep.time} - ${dep.origin} to ${dep.destination} (${dep.trainId})`;

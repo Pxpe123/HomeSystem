@@ -1,4 +1,16 @@
 {
+  "global": {
+    "activepages": [
+      "spotify",
+      "clock",
+      "pc_manager",
+      "trainline",
+      "starling_bank",
+      "smart_home",
+      "weather",
+      "news"
+    ]
+  },
   "pages": {
     "clock": {
       "timeFormat": "24"
