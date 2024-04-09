@@ -1,38 +1,63 @@
-<div class="w-full h-full flex flex-col items-center justify-center text-white p-4">
-    <div id="track-info" class="text-center mb-4">
-        <img id="song-image" src="https://img.icons8.com/ios-filled/100/spotify.png" alt="Song Image" class="mx-auto"
-            style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
-
-        <p id="song-title" class="text-lg font-semibold">Song Title</p>
-        <p id="artist-name" class="text-sm">Artist Name</p>
+<div
+    class="overflow-hidden w-full h-full flex flex-col items-center justify-center text-white p-4 bg-gradient-to-br from-green-900 to-black min-h-screen">
+    <div id="track-info" class="text-center mb-8">
+        <img id="song-image" src="https://img.icons8.com/ios-filled/100/spotify.png" alt="Song Image"
+            class="mx-auto rounded-full shadow-lg" style="width: 120px; height: 120px;">
+        <p id="song-title" class="text-xl font-bold mt-4">Song Title</p>
+        <p id="artist-name" class="text-md mt-2">Artist Name</p>
     </div>
 
-    <div class="player-controls flex items-center justify-center space-x-4 mb-4">
-        <button id="prev-button" onclick="prevSong()" class="bg-gray-700 hover:bg-gray-600 rounded-full p-2">
-            <i class="fas fa-backward"></i>
+    <div class="player-controls flex items-center justify-center space-x-6 mb-6">
+        <button id="prev-button" onclick="prevSong()"
+            class="focus:outline-none bg-green-600 hover:bg-green-700 rounded-full p-3 shadow">
+            <i class="fas fa-backward text-xl"></i>
         </button>
         <button id="play-pause-button" onclick="togglePlayPause()"
-            class="bg-blue-500 hover:bg-blue-400 rounded-full p-3">
-            <i id="play-pause-icon" class="fas fa-play"></i>
+            class="focus:outline-none bg-green-500 hover:bg-green-600 rounded-full p-4 shadow">
+            <i id="play-pause-icon" class="fas fa-play text-2xl"></i>
         </button>
-        <button id="next-button" onclick="nextSong()" class="bg-gray-700 hover:bg-gray-600 rounded-full p-2">
-            <i class="fas fa-forward"></i>
+        <button id="next-button" onclick="nextSong()"
+            class="focus:outline-none bg-green-600 hover:bg-green-700 rounded-full p-3 shadow">
+            <i class="fas fa-forward text-xl"></i>
         </button>
     </div>
 
-    <div class="w-full mb-4">
+    <div class="w-full px-4 mb-4">
         <input type="range" id="playback-slider" class="w-full" min="0" max="100" value="0"
             oninput="setPlaybackPoint(this.value)" />
     </div>
 
-    <div class="flex items-center justify-between w-full mb-4">
-        <button id="shuffle-button" onclick="toggleShuffle()" class="bg-gray-700 hover:bg-gray-600 rounded p-2">
+    <div class="flex items-center justify-between w-full px-4 mb-4">
+        <button id="shuffle-button" onclick="toggleShuffle()"
+            class="focus:outline-none bg-gray-700 hover:bg-gray-800 rounded p-2 shadow">
             <i class="fas fa-random"></i>
         </button>
         <input type="range" id="volume-slider" class="w-1/2" min="0" max="100" value="100"
             oninput="setVolume(this.value)" />
-        <button id="repeat-button" onclick="toggleRepeat()" class="bg-gray-700 hover:bg-gray-600 rounded p-2">
+        <button id="repeat-button" onclick="toggleRepeat()"
+            class="focus:outline-none bg-gray-700 hover:bg-gray-800 rounded p-2 shadow">
             <i class="fas fa-redo"></i>
         </button>
+        <button id="" onclick="openDeviceModal()"
+            class="focus:outline-none bg-gray-700 hover:bg-gray-800 rounded p-2 shadow">
+            <i class="fas fa-desktop"></i>
+        </button>
+
+    </div>
+
+    <!-- Device Selection Modal (Hidden by default, shown on event) -->
+    <div id="device-modal"
+        class="hidden fixed inset-0 bg-black bg-opacity-50 backdrop-filter backdrop-blur-sm flex justify-center items-center">
+        <div class="bg-gray-800 text-white rounded-lg p-6 space-y-4 max-w-md w-full">
+            <h3 class="font-semibold text-lg">Select Playback Device</h3>
+            <!-- Device selection options go here -->
+            <div id="device-modal-content" class="flex flex-col space-y-2">
+                <!-- Dynamically populated -->
+            </div>
+            <button onclick="closeDeviceModal()"
+                class="mt-4 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none shadow">
+                Close
+            </button>
+        </div>
     </div>
 </div>

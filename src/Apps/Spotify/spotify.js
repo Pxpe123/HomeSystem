@@ -85,3 +85,41 @@ function prevSong() {
     (err) => console.error("Failed to skip to previous song:", err)
   );
 }
+
+function closeDeviceModal() {
+  document.getElementById("device-modal").classList.add("hidden");
+}
+async function openDeviceModal() {
+  let devicesResponse = await spotifyApi.getMyDevices();
+  let devices = devicesResponse.body.devices; // Assuming the API response has a 'devices' array
+
+  const devicesContainer = document.createElement("div");
+  devicesContainer.classList.add("flex", "flex-col", "space-y-2");
+
+  devices.forEach((device) => {
+    const deviceDiv = document.createElement("button");
+    deviceDiv.textContent = device.name;
+    deviceDiv.classList.add("py-2", "px-4", "rounded");
+
+    deviceDiv.onclick = selectDevice(device.id);
+
+    if (device.is_active) {
+      deviceDiv.classList.add("text-green-500");
+    } else {
+      deviceDiv.classList.add("text-white");
+    }
+
+    devicesContainer.appendChild(deviceDiv);
+  });
+
+  const modalContent = document.getElementById("device-modal-content");
+  modalContent.innerHTML = "";
+  modalContent.appendChild(devicesContainer);
+
+  document.getElementById("device-modal").classList.remove("hidden");
+}
+
+async function selectDevice(deviceId) {
+  spotifyApi.play({ device_id: deviceId });
+  openDeviceModal();
+}
