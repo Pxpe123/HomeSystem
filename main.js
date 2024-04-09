@@ -1,4 +1,3 @@
-// Modules to control application life and create native browser window
 const { app, BrowserWindow } = require("electron");
 const path = require("node:path");
 const fs = require("fs");
@@ -7,7 +6,7 @@ function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 960,
     height: 540,
-    show: false, // Initially hide the window
+    show: false,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: true,
@@ -26,7 +25,7 @@ function createWindow() {
     mainWindow.show();
     mainWindow.webContents.openDevTools();
   });
-  mainWindow.setPosition(-1000, 250);
+  mainWindow.setPosition(2560, 900);
 }
 
 app.whenReady().then(() => {
