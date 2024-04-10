@@ -1,6 +1,7 @@
 <div class="w-full h-full flex flex-col items-center justify-center text-white p-4">
     <div class="top-right">
-        <button class="settings-btn" id="settings-btn" onclick="toggleSettings()">
+        <button class="settings-btn" id="settings-btn"
+            onclick="toggleSettings(`settingsSidebar`,`settingsoverlay`, `settings-btn`)">
             <i class="fas fa-cog"></i>
         </button>
     </div>
@@ -23,7 +24,8 @@
             <button type="submit" class="submit-btn">Save Settings</button>
         </form>
     </div>
-    <div class="overlay" id="overlay" onclick="closeSettings()"></div>
+    <div class="overlay" id="settingsoverlay"
+        onclick="closeSettings(`settingsSidebar`,`settingsoverlay`, `settings-btn`)"></div>
     <div class="info top-info">Top Info</div>
     <div class="center-content">
         <div class="info left-info">Left Info</div>

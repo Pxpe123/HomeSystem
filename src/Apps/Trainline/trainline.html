@@ -1,0 +1,29 @@
+<button class="settings-btn" id="trainline-btn"
+    onclick="toggleSettings(`trainlineSidebar`,`trainlineoverlay`, `trainline-btn`)">
+    <i class="fas fa-cog"></i>
+</button>
+
+<div class="radio-buttons">
+</div>
+<div class="train-board w-full h-full overflow-auto text-white p-4">
+    <div class="train-header grid grid-cols-3 font-bold mb-2">
+        <div>Destination</div>
+        <div>Departure Time</div>
+        <div>Status</div>
+    </div>
+</div>
+
+<div class="settings-sidebar" id="trainlineSidebar">
+    <div class="w-full h-[15%] flex items-center justify-start pl-4 pcmanager_settings_topdiv">
+        <img src="https://img.icons8.com/ios-filled/100/spotify.png" alt="" class="w-10 h-10 mr-4">
+        <span class="text-white text-lg">Trainline Settings</span>
+    </div>
+
+    <form id="trainlineForm" class="w-full h-[85%] flex flex-col justify-start items-start pl-4 pt-8 space-y-4">
+
+        <button type="submit" class="submit-btn">Save Settings</button>
+    </form>
+</div>
+<div class="overlay" id="trainlineoverlay"
+    onclick="closeSettings(`trainlineSidebar`,`trainlineoverlay`, `trainline-btn`)">
+</div>

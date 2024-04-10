@@ -6,26 +6,6 @@ let ManagerSettingsJson;
 let macAddress;
 let target;
 
-function toggleSettings() {
-  const sidebar = document.getElementById("settingsSidebar");
-  const overlay = document.getElementById("overlay");
-  let settingBtn = document.getElementById("settings-btn");
-
-  sidebar.classList.toggle("open");
-  overlay.classList.toggle("show");
-  settingBtn.style.display = "none";
-}
-
-function closeSettings() {
-  const sidebar = document.getElementById("settingsSidebar");
-  const overlay = document.getElementById("overlay");
-  let settingBtn = document.getElementById("settings-btn");
-
-  sidebar.classList.remove("open");
-  overlay.classList.remove("show");
-  settingBtn.style.display = "";
-}
-
 async function pc_managerInit() {
   ManagerSettingsJson = await getAllPageSettings("pcManagement");
   macAddress = ManagerSettingsJson.macAddress;

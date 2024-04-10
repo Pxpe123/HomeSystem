@@ -146,47 +146,22 @@ AppInit();
 
 require("dotenv").config();
 
-async function fetchTrainDepartures(stationCode) {
-  const endpoint = `https://api.rtt.io/api/v1/json/search/${stationCode}`;
-  const username = process.env.RTTAPI_USERNAME; // Stored in your .env file
-  const password = process.env.RTTAPI_PASSWORD; // Stored in your .env file
+function toggleSettings(sidebarId, overlayId, settingBtnId) {
+  const sidebar = document.getElementById(sidebarId);
+  const overlay = document.getElementById(overlayId);
+  const settingBtn = document.getElementById(settingBtnId);
 
-  const base64Credentials = Buffer.from(`${username}:${password}`).toString(
-    "base64"
-  );
-
-  const response = await fetch(endpoint, {
-    headers: {
-      Authorization: `Basic ${base64Credentials}`,
-      "Content-Type": "application/json",
-    },
-  });
-
-  const data = await response.json();
-
-  return data.services.map((service) => ({
-    time: service.locationDetail.gbttBookedDeparture,
-    origin: service.locationDetail.origin[0].description,
-    destination: service.locationDetail.destination[0].description,
-    trainId: service.trainIdentity,
-  }));
+  sidebar.classList.toggle("open");
+  overlay.classList.toggle("show");
+  settingBtn.style.display = "none";
 }
 
-async function displayDepartures() {
-  try {
-    const stations = await getAppSettings("trainTracker", "stationsCodes");
-    for (const station of stations) {
-      const departures = await fetchTrainDepartures(station);
-      console.log(`Departures from ${station}:`, departures);
-      // departures.forEach(dep => {
-      //     const div = document.createElement('div');
-      //     div.textContent = `${dep.time} - ${dep.origin} to ${dep.destination} (${dep.trainId})`;
-      //     document.body.appendChild(div);
-      // });
-    }
-  } catch (error) {
-    console.error("Error fetching train departures:", error);
-  }
-}
+function closeSettings(sidebarId, overlayId, settingBtnId) {
+  const sidebar = document.getElementById(sidebarId);
+  const overlay = document.getElementById(overlayId);
+  const settingBtn = document.getElementById(settingBtnId);
 
-displayDepartures();
+  sidebar.classList.remove("open");
+  overlay.classList.remove("show");
+  settingBtn.style.display = "";
+}

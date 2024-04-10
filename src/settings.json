@@ -20,7 +20,20 @@
       "ipAddress": "192.168.50.77"
     },
     "trainTracker": {
-      "stationsCodes": ["LVC", "MNS", "KIR"]
+      "stations": [
+        {
+          "code": "LVC",
+          "alias": "Liverpool Central"
+        },
+        {
+          "code": "MNS",
+          "alias": "Maghull North"
+        },
+        {
+          "code": "KIR",
+          "alias": "Kirkby"
+        }
+      ]
     }
   }
 }
